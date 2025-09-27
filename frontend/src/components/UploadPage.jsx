@@ -96,7 +96,7 @@ export default function UploadPage() {
     // 1️⃣ Send text
     if (textInput.trim()) {
       try {
-        const res = await fetch("http://localhost:5000/upload/text", {
+        const res = await fetch("https://vaultx-fullstack.onrender.com/upload/text", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text: textInput }),
@@ -132,7 +132,7 @@ export default function UploadPage() {
 
         try {
           // Request presigned URL
-          const presignRes = await fetch("http://localhost:5000/api/presign", {
+          const presignRes = await fetch("https://vaultx-fullstack.onrender.com/api/presign", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ files: [{ name: file.name }] }),
@@ -164,7 +164,7 @@ export default function UploadPage() {
           setUploadProgress(prev => ({ ...prev, [file.name]: 75 }));
 
           // Save metadata in MongoDB
-          const saveRes = await fetch("http://localhost:5000/api/save-file", {
+          const saveRes = await fetch("https://vaultx-fullstack.onrender.com/api/save-file", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

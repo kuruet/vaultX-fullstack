@@ -8,7 +8,7 @@ const DownloadPage = () => {
   useEffect(() => {
     const fetchEntries = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/entries");
+        const res = await fetch("https://vaultx-fullstack.onrender.com/api/entries");
         const data = await res.json();
 
         data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -29,7 +29,7 @@ const DownloadPage = () => {
   const handleDownload = async (fileKey) => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/api/presign-download", {
+      const res = await fetch("https://vaultx-fullstack.onrender.com/api/presign-download", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ key: fileKey }),
@@ -51,7 +51,7 @@ const DownloadPage = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this entry ?")) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/delete/${id}`, {
+      const res = await fetch(`https://vaultx-fullstack.onrender.com/api/delete/${id}`, {
         method: "DELETE",
       });
 
