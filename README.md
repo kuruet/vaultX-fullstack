@@ -17,7 +17,7 @@ This is not just another "upload and download" app – it’s my journey of lear
 ## 🛠️ Tech Stack
 - **Frontend:** React + TailwindCSS (clean UI, responsive design)  
 - **Backend:** Node.js + Express  
-- **Database/Storage:** (Mention if using MongoDB, Firebase, or local storage)  
+- **Database/Storage:** MongoDB atlas. Cloudflare R2 S3 
 - **Deployment:** Render (for backend) + GitHub for version control  
 - **Other Tools:** dotenv for secret management, GitHub Actions for CI/CD  
 
@@ -56,7 +56,8 @@ That’s why I built **Dark** — a file-sharing solution with **no login and no
 ---
 
 ## 📸 Screenshots / Demo
-(Add images or GIFs here showing upload → share link → download flow)
+![SwiftShare](https://github.com/user-attachments/assets/b64b22e4-9ea3-4efb-8a77-17826f895391)
+
 
 ---
 
@@ -69,8 +70,8 @@ That’s why I built **Dark** — a file-sharing solution with **no login and no
 ---
 
 ## 🔗 Live Demo & Source
-- [🌍 Live Demo](your-live-demo-url)  
-- [💻 Source Code](https://github.com/kuruet/Dark)  
+- [🌍 Live Demo](https://k-i4q2.onrender.com/)  
+- [💻 Source Code](https://github.com/kuruet/vaultX-fullstack)  
 
 ---
 
