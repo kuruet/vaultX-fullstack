@@ -31,7 +31,7 @@ Most people, including me, use platforms like **WhatsApp or Drive** to share fil
 - ⏳ Other platforms waste time with logins and authentication  
 
 I wanted something faster, simpler, and login-free.  
-That’s why I built **Dark** — a file-sharing solution with **no login and no auth required**. Just upload → share link → done.  
+That’s why I built **SwiftShare** — a file-sharing solution with **no login and no auth required**. Just upload → share link → done.  
 
 ### 2. 🛠️ Building the Backend
 - Designed REST APIs for file upload and retrieval.  
