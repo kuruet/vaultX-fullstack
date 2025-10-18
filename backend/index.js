@@ -15,6 +15,7 @@ import { v4 as uuidv4 } from "uuid";
 import File from "./models/file.js"; 
 import uploadRouter from "./routes/UploadRouter.js";
   // import s3 from "./s3.js";
+import { fileURLToPath } from "url";
 
 
 
@@ -297,6 +298,7 @@ app.delete("/delete/:id", async(req, res)=>{
     res.status(500).json({ error: err.message});
   }
 })
+
 
 
 

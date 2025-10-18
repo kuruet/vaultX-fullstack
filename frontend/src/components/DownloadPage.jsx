@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
+import SwiftShareLoader from "../components/loader"; // adjust path if different
 
 const DownloadPage = () => {
   const [entries, setEntries] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [entriesLoading, setEntriesLoading] = useState(true); // initial fetch loading
+  const [actionLoading, setActionLoading] = useState(false); // per-action (download) loading
   const [copiedID, setCopiedID] = useState(null);
 
   useEffect(() => {
     const fetchEntries = async () => {
+      setEntriesLoading(true);
       try {
         const res = await fetch("https://vaultx-fullstack.onrender.com/api/entries");
         const data = await res.json();
@@ -15,6 +18,8 @@ const DownloadPage = () => {
         setEntries(data);
       } catch (err) {
         console.error("❌ Error fetching entries:", err);
+      } finally {
+        setEntriesLoading(false);
       }
     };
     fetchEntries();
@@ -28,7 +33,7 @@ const DownloadPage = () => {
 
   const handleDownload = async (fileKey) => {
     try {
-      setLoading(true);
+      setActionLoading(true);
       const res = await fetch("https://vaultx-fullstack.onrender.com/api/presign-download", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -44,7 +49,7 @@ const DownloadPage = () => {
       console.error("❌ Error downloading file:", err);
       alert("Download failed. Check console.");
     } finally {
-      setLoading(false);
+      setActionLoading(false);
     }
   };
 
@@ -65,15 +70,49 @@ const DownloadPage = () => {
     }
   };
 
+  // Loader callbacks
+  const onLoaderCancel = () => {
+    // If user cancels initial loading, stop loading and leave entries empty
+    setEntriesLoading(false);
+  };
+
+  const onLoaderRetry = () => {
+    // re-run fetch
+    setEntriesLoading(true);
+    (async () => {
+      try {
+        const res = await fetch("https://vaultx-fullstack.onrender.com/api/entries");
+        const data = await res.json();
+        data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setEntries(data);
+      } catch (err) {
+        console.error("❌ Error fetching entries on retry:", err);
+      } finally {
+        setEntriesLoading(false);
+      }
+    })();
+  };
+
   return (
     <div style={{ padding: "1rem" }}>
       <h1 style={{ textAlign: "center", marginBottom: "1.5rem" }}>
         Documents
       </h1>
 
-      {entries.length === 0 ? (
+      {/* Show the full-page loader while initial entries are loading */}
+      <SwiftShareLoader
+        isLoading={entriesLoading}
+        onCancel={onLoaderCancel}
+        onRetry={onLoaderRetry}
+      />
+
+      {/* If not loading and no entries */}
+      {!entriesLoading && entries.length === 0 && (
         <p style={{ textAlign: "center" }}>No entries yet.</p>
-      ) : (
+      )}
+
+      {/* Show table only when entries loaded */}
+      {!entriesLoading && entries.length > 0 && (
         <div style={{ overflowX: "auto" }}>
           <table
             style={{
@@ -128,17 +167,17 @@ const DownloadPage = () => {
                     ) : (
                       <button
                         onClick={() => handleDownload(entry.key)}
-                        disabled={loading}
+                        disabled={actionLoading}
                         style={{
                           backgroundColor: "dodgerblue",
                           border: "none",
                           padding: "6px 12px",
                           borderRadius: "5px",
-                          cursor: "pointer",
+                          cursor: actionLoading ? "not-allowed" : "pointer",
                           color: "white",
                         }}
                       >
-                        {loading ? "Processing..." : "Download"}
+                        {actionLoading ? "Processing..." : "Download"}
                       </button>
                     )}
 
